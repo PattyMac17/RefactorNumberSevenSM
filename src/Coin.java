@@ -13,7 +13,7 @@ public class Coin extends Obstacle implements Drawable{
         hitBox = new Rectangle2D.Double(x + sideLength/4, y, sideLength/2, sideLength);
     }
     public void playerCheck(World w){
-        if(hitBox.intersects(w.player.hitBox) && !collected){
+        if(hitBox.intersects(w.player.hitBox) && !collected && w.player.alive){
             collected = true;
             w.score += 100;
         }

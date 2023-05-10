@@ -56,7 +56,16 @@ public class NPC extends Obstacle implements Drawable{
                     }
                     break;
             }
-            g.drawImage(image,(int)position.x,(int)position.y, sideLength, sideLength,null);
+            g.drawImage(image,(int)position.x,(int)position.y + 10, sideLength, sideLength,null);
+            g.setColor(Color.white);
+            g.drawRect((int)leftWall.getMinX(), (int)leftWall.getMinY(),
+                    (int)leftWall.getWidth(), (int)leftWall.getHeight());
+            g.drawRect((int)rightWall.getMinX(), (int)rightWall.getMinY(),
+                    (int)rightWall.getWidth(), (int)rightWall.getHeight());
+            g.drawRect((int)topWall.getMinX(), (int)topWall.getMinY(),
+                    (int)topWall.getWidth(), (int)topWall.getHeight());
+            g.drawRect((int)bottomWall.getMinX(), (int)bottomWall.getMinY(),
+                    (int)bottomWall.getWidth(), (int)bottomWall.getHeight());
         }
         /*g.setColor(color);
         if(alive)

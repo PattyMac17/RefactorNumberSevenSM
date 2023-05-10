@@ -27,12 +27,14 @@ public class Player {
     boolean inControl = true;
     boolean walkOff;
     int walkOffCounter = 0;
+    int imageSize;
     public Player(){
         getImage();
         direction = "right";
         //set player height and width
-        this.playerHeight = 60;
+        this.playerHeight = 36;
         this.playerWidth = 60;
+        this.imageSize = 60;
 
         //set initial position
         this.position = new Pair(50, Main.HEIGHT - 99 - this.playerHeight);
@@ -325,8 +327,9 @@ public class Player {
                 }
                 break;
         }
-        g.drawImage(image,(int)position.x,(int)position.y + 15, playerWidth, playerHeight,null);
-
+        g.drawImage(image,(int)position.x,(int)position.y - 10, imageSize, imageSize,null);
+        g.setColor(Color.white);
+        g.drawRect((int)hitBox.getMinX(), (int)hitBox.getMinY(), (int)hitBox.getWidth(), (int)hitBox.getHeight());
     }
 
     public void setPosition(Pair p){
