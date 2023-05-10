@@ -351,6 +351,13 @@ public class DataStructure<E extends Obstacle> {
         Node<E> node = this.end;
         E elem = node.element;
         if(w.player.hitBox.intersects(elem.rightWall)){
+            double h = Main.HEIGHT - 100 - w.player.position.y;
+            //System.out.println("player height: " + h);
+            double flagH = Main.HEIGHT - 100 - elem.position.y;
+            //System.out.println("flag height: " + flagH);
+            int addScore = (int)(h/flagH*100);
+            //System.out.println("adding to score: " + addScore);
+            w.score += addScore;
             w.player.leftCollision = true;
             w.player.velocity = new Pair(0, 0); //this is where it is special
             w.player.inControl = false;
@@ -370,7 +377,13 @@ public class DataStructure<E extends Obstacle> {
             node = node.prev;
             elem = node.element;
             if(w.player.hitBox.intersects(elem.rightWall)){
-
+                double h = Main.HEIGHT - 100 - w.player.position.y;
+                //System.out.println(h);
+                double flagH = Main.HEIGHT - 100 - elem.position.y;
+                //System.out.println(flagH);
+                int addScore = (int)(h/flagH*100);
+                //System.out.println(addScore);
+                w.score += addScore;
                 w.player.leftCollision = true;
                 w.player.velocity = new Pair(0, 0); //this is where it is special
                 w.player.inControl = false;

@@ -204,8 +204,32 @@ public class Main extends JPanel implements KeyListener{
             }
             else{
                 g.setColor(Color.BLACK);
+                Rectangle rect = new Rectangle(0, 0, WIDTH, HEIGHT);
                 g.fillRect(0, 0, WIDTH, HEIGHT);
+                Font f = new Font("TimesRoman", Font.PLAIN, 100);
+                g.setColor(Color.white);
+                if(world.winner){
+                    String score = "Final Score: "+world.score;
+                    drawCenteredString(g, score,rect, f);
+                }
+                if(world.player.sixFeetUnder){
+                    String fail = "You Died";
+                    drawCenteredString(g,fail, rect, f);
+                }
             }
         }
+    }
+    //this method was sourced from StackExchange
+    public void drawCenteredString(Graphics g, String text, Rectangle rect, Font font) {
+        // Get the FontMetrics
+        FontMetrics metrics = g.getFontMetrics(font);
+        // Determine the X coordinate for the text
+        int x = rect.x + (rect.width - metrics.stringWidth(text)) / 2;
+        // Determine the Y coordinate for the text (note we add the ascent, as in java 2d 0 is top of the screen)
+        int y = rect.y + ((rect.height - metrics.getHeight()) / 2) + metrics.getAscent();
+        // Set the font
+        g.setFont(font);
+        // Draw the String
+        g.drawString(text, x, y);
     }
 }
