@@ -1,6 +1,13 @@
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class NPC extends Obstacle implements Drawable{
+    BufferedImage left1,left2,right1,right2;
+    String direc;
+    int spriteCounter = 0;
+    int spriteNum = 1;
     int bounceCount;
     Color color;
     boolean engaged = false;
@@ -10,15 +17,48 @@ public class NPC extends Obstacle implements Drawable{
 
     public NPC(int x, int y, World w) {
         super(x, y);
+        getImage();
+        direc = "left";
         color = Color.YELLOW;
-
+        sideLength = 50;
         acceleration = new Pair(acceleration.x, 700);
 
+    }
+    public void updateDirection(){
+        if(bounceCount%2 == 0){
+            direc = "left";
+        }
+        else{
+            direc = "right";
+        }
     }
 
     @Override
     public void draw(Graphics g) {
-        g.setColor(color);
+        if(alive){
+            BufferedImage image = null;
+            switch (direc) {//connected to keyPressed in Main,
+                //enables character's running animation to play when he's moving
+                case "right":
+                    if (spriteNum == 1){
+                        image = right1;
+                    }
+                    if (spriteNum == 2){
+                        image = right2;
+                    }
+                    break;
+                case "left":
+                    if (spriteNum == 1){
+                        image = left1;
+                    }
+                    if (spriteNum == 2){
+                        image = left2;
+                    }
+                    break;
+            }
+            g.drawImage(image,(int)position.x,(int)position.y, sideLength, sideLength,null);
+        }
+        /*g.setColor(color);
         if(alive)
         g.fillRect((int)this.position.x, (int)this.position.y, sideLength, sideLength);
         g.setColor(Color.white);
@@ -29,7 +69,7 @@ public class NPC extends Obstacle implements Drawable{
         g.drawRect((int)topWall.getMinX(), (int)topWall.getMinY(),
                 (int)topWall.getWidth(), (int)topWall.getHeight());
         g.drawRect((int)bottomWall.getMinX(), (int)bottomWall.getMinY(),
-                (int)bottomWall.getWidth(), (int)bottomWall.getHeight());
+                (int)bottomWall.getWidth(), (int)bottomWall.getHeight());*/
     }
 
     @Override
@@ -37,13 +77,25 @@ public class NPC extends Obstacle implements Drawable{
         super.update(w, time);
         jumpStop(w);
         scrollAdjust(w);
-
+        updateDirection();
         //pipeLeftCheck(w);
         //pipeRightCheck(w);
 
         //blkLeftCheck(w);
         //blkRightCheck(w);
         playerCheck(w);
+        //System.out.println(bounceCount%2);
+        spriteCounter++;
+        if (velocity.x != 0 || w.ground.velocity.x != 0){
+            if (spriteCounter > 100) { //the image switches after this many frames
+                if (spriteNum == 1) {
+                    spriteNum = 2;
+                } else if (spriteNum == 2) {
+                    spriteNum = 1;
+                }
+                spriteCounter = 0; //reset the counter
+            }
+        }
 
     }
     public void playerCheck(World w){
@@ -67,7 +119,7 @@ public class NPC extends Obstacle implements Drawable{
             if(w.isScrolling && w.ground.velocity.x != 0){
                 if(bounceCount%2 ==0){
                     velocity = new Pair(-300, velocity.y);
-                    //System.out.println("a");
+
                 }
                 else{
                     velocity = new Pair(-100, velocity.y);
@@ -186,4 +238,17 @@ public class NPC extends Obstacle implements Drawable{
             rightCollision = false;
         }
     }*/
+    public void getImage(){ //pulls images needed for the character
+        //we did this by referring to a YouTube tutorial
+
+        try{
+            right1 = ImageIO.read(getClass().getResourceAsStream("eph_right1.png"));
+            right2 = ImageIO.read(getClass().getResourceAsStream("eph_right2.png"));
+            left1 = ImageIO.read(getClass().getResourceAsStream("eph_left1.png"));
+            left2 = ImageIO.read(getClass().getResourceAsStream("eph_left2.png"));
+
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
 }
