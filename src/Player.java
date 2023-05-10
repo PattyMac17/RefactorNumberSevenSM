@@ -1,7 +1,14 @@
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class Player {
+    BufferedImage left1,left2,right1,right2;
+    String direction;
+    int spriteCounter = 0;
+    int spriteNum = 1;
     Rectangle2D hitBox;
     Pair position;
     Pair velocity;
@@ -21,9 +28,11 @@ public class Player {
     boolean walkOff;
     int walkOffCounter = 0;
     public Player(){
+        getImage();
+        direction = "right";
         //set player height and width
-        this.playerHeight = 50;
-        this.playerWidth = 30;
+        this.playerHeight = 60;
+        this.playerWidth = 60;
 
         //set initial position
         this.position = new Pair(50, Main.HEIGHT - 99 - this.playerHeight);
@@ -35,6 +44,19 @@ public class Player {
 
         //set color for test rectangle
         this.testColor = Color.CYAN;
+    }
+    public void getImage(){ //pulls images needed for the character
+        //we did this by referring to a YouTube tutorial
+
+        try{
+            right1 = ImageIO.read(getClass().getResourceAsStream("bebu_right1.png"));
+            right2 = ImageIO.read(getClass().getResourceAsStream("bebu_right2.png"));
+            left1 = ImageIO.read(getClass().getResourceAsStream("bebu_left1.png"));
+            left2 = ImageIO.read(getClass().getResourceAsStream("bebu_left2.png"));
+
+        } catch (IOException e){
+            e.printStackTrace();
+        }
     }
     /*public void NPCLeftCheck(World w){
         if(this.hitBox.intersects(w.cow.leftWall) && w.cow.alive && alive){
@@ -272,8 +294,28 @@ public class Player {
         }
     }
     public void draw(Graphics g){
-        g.setColor(testColor);
-        g.fillRect((int)this.position.x, (int)this.position.y, playerWidth, playerHeight);
+        BufferedImage image = null;
+        switch (direction) {//connected to keyPressed in Main,
+            //enables character's running animation to play when he's moving
+            case "right":
+                if (spriteNum == 1){
+                    image = right1;
+                }
+                if (spriteNum == 2){
+                    image = right2;
+                }
+                break;
+            case "left":
+                if (spriteNum == 1){
+                    image = left1;
+                }
+                if (spriteNum == 2){
+                    image = left2;
+                }
+                break;
+        }
+        g.drawImage(image,(int)position.x,(int)position.y + 15, playerWidth, playerHeight,null);
+
     }
 
     public void setPosition(Pair p){

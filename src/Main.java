@@ -63,9 +63,11 @@ public class Main extends JPanel implements KeyListener{
             if(e.getKeyCode() == KeyEvent.VK_A && !world.player.atStart && !world.player.leftCollision){
                 Pair a = new Pair(-world.playerVelocity, world.player.velocity.y);
                 world.player.setVelocity(a);
+                world.player.direction = "left";
             }
             if (e.getKeyCode() == KeyEvent.VK_D && !world.player.rightCollision){
                 //System.out.println("here");
+                world.player.direction = "right";
                 Pair a = new Pair(world.playerVelocity, world.player.velocity.y);
                 if (!world.player.atMiddle){
                     world.player.setVelocity(a);
