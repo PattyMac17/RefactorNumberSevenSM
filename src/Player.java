@@ -127,6 +127,17 @@ public class Player {
         position = position.add(velocity.times(time));
         hitBox.setRect(position.x,position.y, playerWidth,playerHeight);
         velocity = velocity.add(acceleration.times(time));
+        spriteCounter++;
+        if (hitBox.intersects(w.ground.groundLevel) && (velocity.x != 0 || w.ground.velocity.x != 0)){
+            if (spriteCounter > 100) { //the image switches after this many frames
+                if (spriteNum == 1) {
+                    spriteNum = 2;
+                } else if (spriteNum == 2) {
+                    spriteNum = 1;
+                }
+                spriteCounter = 0; //reset the counter
+            }
+        }
 
         midCheck();
         wallCheck();
