@@ -128,7 +128,7 @@ public class Player {
         hitBox.setRect(position.x,position.y, playerWidth,playerHeight);
         velocity = velocity.add(acceleration.times(time));
         spriteCounter++;
-        if (hitBox.intersects(w.ground.groundLevel) && (velocity.x != 0 || w.ground.velocity.x != 0)){
+        if ((hitBox.intersects(w.ground.groundLevel) || w.allObstacles.jumpStartCheck(w)) && (velocity.x != 0 || w.ground.velocity.x != 0)){
             if (spriteCounter > 100) { //the image switches after this many frames
                 if (spriteNum == 1) {
                     spriteNum = 2;
