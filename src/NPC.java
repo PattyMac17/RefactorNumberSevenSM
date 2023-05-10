@@ -1,5 +1,6 @@
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -14,13 +15,25 @@ public class NPC extends Obstacle implements Drawable{
     boolean leftCollision;
     boolean rightCollision;
     boolean alive = true;
+    int imageSize;
+    int sideHeight;
 
     public NPC(int x, int y, World w) {
         super(x, y);
+        sideLength = 50;
+        sideHeight = 35;
+        imageSize = 50;
+        topWall = new Rectangle2D.Double(position.x, position.y,
+                sideLength, wallWidth);
+        leftWall = new Rectangle2D.Double(position.x - wallWidth, position.y + wallWidth,
+                wallWidth, sideHeight - (2 * wallWidth));
+        rightWall = new Rectangle2D.Double(position.x + sideLength, position.y + wallWidth,
+                wallWidth, sideHeight - (2 * wallWidth));
+        bottomWall = new Rectangle2D.Double(position.x, position.y + sideHeight - wallWidth,
+                sideLength, wallWidth);
         getImage();
         direc = "left";
         color = Color.YELLOW;
-        sideLength = 50;
         acceleration = new Pair(acceleration.x, 700);
 
     }
@@ -56,7 +69,7 @@ public class NPC extends Obstacle implements Drawable{
                     }
                     break;
             }
-            g.drawImage(image,(int)position.x,(int)position.y + 10, sideLength, sideLength,null);
+            g.drawImage(image,(int)position.x,(int)position.y - 5, imageSize, imageSize,null);
             g.setColor(Color.white);
             g.drawRect((int)leftWall.getMinX(), (int)leftWall.getMinY(),
                     (int)leftWall.getWidth(), (int)leftWall.getHeight());
@@ -83,7 +96,17 @@ public class NPC extends Obstacle implements Drawable{
 
     @Override
     public void update(World w, double time) {
-        super.update(w, time);
+        position = position.add(velocity.times(time));
+        leftWall.setRect(position.x - wallWidth, position.y + wallWidth,
+                wallWidth, sideHeight - (2 * wallWidth));
+        rightWall.setRect(position.x + sideLength, position.y + wallWidth,
+                wallWidth, sideHeight - (2 * wallWidth));
+        topWall.setRect(position.x, position.y,
+                sideLength, wallWidth);
+        bottomWall.setRect(position.x, position.y + sideHeight - wallWidth,
+                sideLength, wallWidth);
+        velocity = velocity.add(acceleration.times(time));
+
         jumpStop(w);
         scrollAdjust(w);
         updateDirection();

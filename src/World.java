@@ -51,13 +51,38 @@ public class World {
 
         allObstacles.append(new InGameLogo(50, 100));
         allObstacles.append(new Pipe(width/4 + 500, Main.HEIGHT - 100 - 100, 70, 100));
-        allObstacles.append(new Brick(1200, 500));
+        allObstacles.append(new Brick(1250, 500));
         allObstacles.append(new Block(1100, 500));
-        allObstacles.append(new QuestionCube(1000, 500));
+        allObstacles.append(new Brick(950, 500));
         allObstacles.append(new Block(1350, 628));
         allObstacles.append(new StairBlock(1400, 588));
 
-        special.append(new FlagStaff(1600, Main.HEIGHT - 100 - 320, 320));
+        for (int i = 0; i < 4; i++){
+            for (int j = 0; j < i; j++){
+                allObstacles.append(new StairBlock(1600 + (i * 40), 628 - (j * 40)));
+            }
+        }
+        for (int i = 4; i > 0; i--){
+            for (int j = 0; j < i; j++){
+                allObstacles.append(new StairBlock(1800 + (i * 40), 628 - (j * 40)));
+            }
+        }
+
+        allObstacles.append(new Pipe(2250, Main.HEIGHT - 100 - 140,70, 140));
+
+        allNPCs.append(new NPC(2220, 300, this));
+        allNPCs.append(new NPC(2270, 300, this));
+
+        for (int i = 0; i < 9; i++){
+            for (int j = 0; j < i; j++){
+                allObstacles.append(new StairBlock(2400 + (i * 40), 628 - (j * 40)));
+            }
+        }
+        for (int i = 0; i < 8; i++){
+            allObstacles.append(new StairBlock(2400 + (9 * 40), 628 - (i * 40)));
+        }
+
+        special.append(new FlagStaff(3100, Main.HEIGHT - 100 - 320, 320));
         //flag = new FlagPole(1600, 320);
 
         allCoins.append(new Coin(1000, 460));
