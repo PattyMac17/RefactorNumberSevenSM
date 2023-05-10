@@ -69,8 +69,9 @@ public class World {
         }
 
         allObstacles.append(new Pipe(2250, Main.HEIGHT - 100 - 140,70, 140));
+        allCoins.append(new Coin(2250, 300));
 
-        allNPCs.append(new NPC(2220, 300, this));
+        allNPCs.append(new NPC(2100, 300, this));
         allNPCs.append(new NPC(2270, 300, this));
 
         for (int i = 0; i < 9; i++){
@@ -85,7 +86,7 @@ public class World {
         special.append(new FlagStaff(3100, Main.HEIGHT - 100 - 320, 320));
         //flag = new FlagPole(1600, 320);
 
-        allCoins.append(new Coin(1000, 460));
+        allCoins.append(new Coin(1100, 460));
         allNPCs.append(new NPC(1200, 500, this));
     }
     public void draw(Graphics g) {
