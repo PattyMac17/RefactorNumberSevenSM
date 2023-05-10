@@ -180,13 +180,16 @@ public class Main extends JPanel implements KeyListener{
                 else{
                     BufferedImage menu = null;
                     BufferedImage title = null;
+                    BufferedImage ground = null;
                     try {
-                        menu = ImageIO.read(getClass().getResourceAsStream("menu.png"));
+                        menu = ImageIO.read(getClass().getResourceAsStream("background.png"));
+                        ground = ImageIO.read(getClass().getResourceAsStream("ground.png"));
                         title = ImageIO.read(getClass().getResourceAsStream("title.png"));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    g.drawImage(menu, 0,0,Main.WIDTH,Main.HEIGHT, null);
+                    g.drawImage(menu, 0,0,10000,885, null);
+                    g.drawImage(ground, 0,Main.HEIGHT - 100,8000,100, null);
                     g.drawImage(title, 100,100, null);
                 }
             }
